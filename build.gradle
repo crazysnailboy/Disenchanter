@@ -17,9 +17,9 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.4"
+version = "1.5"
 group = "de.impelon.disenchanter"
-archivesBaseName = "[1.7.10]DisenchantingTable"
+archivesBaseName = "Disenchanter-1.7.10"
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
