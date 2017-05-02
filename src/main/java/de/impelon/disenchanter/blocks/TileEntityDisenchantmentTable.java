@@ -8,10 +8,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.ITickable;
 import net.minecraft.world.IInteractionObject;
 
 public class TileEntityDisenchantmentTable extends TileEntity implements ITickable, IInteractionObject {
@@ -35,7 +35,7 @@ public class TileEntityDisenchantmentTable extends TileEntity implements ITickab
 
 		if (this.hasCustomName())
 			nbtData.setString("CustomName", this.customName);
-		
+
 		return nbtData;
 	}
 
@@ -46,12 +46,12 @@ public class TileEntityDisenchantmentTable extends TileEntity implements ITickab
 		if (nbtData.hasKey("CustomName", 8))
 			this.customName = nbtData.getString("CustomName");
 	}
-	
+
 	@Override
 	public void update() {
 		this.bookSpreadPrev = this.bookSpread;
 		this.bookRotationPrev = this.bookRotation;
-		EntityPlayer entityplayer = this.worldObj.getClosestPlayer(
+		EntityPlayer entityplayer = this.world.getClosestPlayer(
 				(double) this.pos.getX() + 0.5D,
 				(double) this.pos.getY() + 0.5D,
 				(double) this.pos.getZ() + 0.5D, 3.0D,
@@ -89,7 +89,7 @@ public class TileEntityDisenchantmentTable extends TileEntity implements ITickab
 		float f2;
 
 		for (f2 = this.bookRotationChange - this.bookRotation; f2 >= (float) Math.PI; f2 -= ((float) Math.PI * 2F)) {}
-		
+
 		while (f2 < -(float) Math.PI)
 			f2 += ((float) Math.PI * 2F);
 
@@ -113,11 +113,13 @@ public class TileEntityDisenchantmentTable extends TileEntity implements ITickab
 		this.pageFlipChange += (f - this.pageFlipChange) * 0.9F;
 		this.pageFlip += this.pageFlipChange;
 	}
-	
+
+	@Override
 	public String getName() {
 		return this.hasCustomName() ? this.customName : "container.disenchant";
 	}
 
+	@Override
 	public boolean hasCustomName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
@@ -126,12 +128,14 @@ public class TileEntityDisenchantmentTable extends TileEntity implements ITickab
 		this.customName = customName;
 	}
 
+	@Override
 	public ITextComponent getDisplayName() {
         return (ITextComponent)(this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]));
     }
 
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-        return new ContainerDisenchantment(playerInventory, this.worldObj, this.pos);
+    @Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+        return new ContainerDisenchantment(playerInventory, this.world, this.pos);
     }
 
 	@Override

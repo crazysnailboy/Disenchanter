@@ -10,9 +10,9 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.4"
+version = "1.5"
 group = "de.impelon.disenchanter"
-archivesBaseName = "[1.10.2]DisenchantingTable"
+archivesBaseName = "Disenchanter-1.10.2"
 
 sourceCompatibility = targetCompatibility = "1.6"
 compileJava {
